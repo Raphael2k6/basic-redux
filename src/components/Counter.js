@@ -1,35 +1,68 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { useSelector, useDispatch, connect, } from 'react-redux';
 import classes from './Counter.module.css';
-
+import {counterActions} from '../store/counter'
 
 const Counter = () => {
-  const counter = useSelector(state => state.counter) 
-  const show = useSelector(state => state.showCounter)
+  console.log("here")
+  const counter = useSelector(state => state.counter.counter) 
+  const show = useSelector(state => state.counter.showCounter)
   const dispatch = useDispatch();
-  console.log(counter);
+  const [add, setAdd] = useState(0);
+  // const [sub, setSub] = useState(0);
 
+  //dispatch with redux
+  // const incrementHandler = () => {
+  //   dispatch({type: 'increment'})
+  // }
+
+  // const decrementHandler = () => {
+  //   dispatch({type: 'decrement'})
+  // }
+
+  // const increaseHandler = () => {
+  //   dispatch({type: 'increase', amount: 5})
+  // }
+  
+  // const toggleCounterHandler = () => {
+  //   dispatch({type: 'toggle'})
+  // };
+
+
+
+  //dispatch with redux toolkit
   const incrementHandler = () => {
-    dispatch({type: 'increment'})
+    dispatch(counterActions.increment())
   }
 
   const decrementHandler = () => {
-    dispatch({type: 'decrement'})
+    dispatch(counterActions.decrement())
   }
 
   const increaseHandler = () => {
-    dispatch({type: 'increase', amount: 5})
+    dispatch(counterActions.increase(5))
   }
   
   const toggleCounterHandler = () => {
-    dispatch({type: 'toggle'})
+    dispatch(counterActions.toggleCounter())
   };
+
+  const addHandler = () => {
+    setAdd(add + 1)
+  }
+  const subHandler = () => {
+    setAdd(add - 1)
+  }
 
   return (
     <main className={classes.counter}>
       <h1>Redux Counter</h1>
+      <h2>{add}</h2>
+      {console.log(show)}
       {show && <div className={classes.value}>{counter}</div>}
       <div>
+      <button onClick={addHandler}>add</button>
+      <button onClick={subHandler}>sub</button>
         <button onClick={incrementHandler}>Increment</button>
         <button onClick={increaseHandler}>Increase by 5</button>
         <button onClick={decrementHandler}>Decrement</button>
